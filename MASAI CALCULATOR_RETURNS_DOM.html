@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <style>
+      * {
+        font-family: f;
+      }
+      #case {
+        height: 439px;
+        width: 360px;
+        border: 1px solid black;
+        margin: auto;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        border-radius: 5px;
+      }
+
+      #screen {
+        height: 50px;
+        width: 80%;
+        margin: 9%;
+        border-radius: 3px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        font-size: xx-large;
+      }
+      #butt {
+        height: 287px;
+        width: 80%;
+        margin: auto;
+      }
+
+      #case > #butt {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        padding: 0.4%;
+        gap: 8px;
+      }
+
+      button {
+        border-radius: 9%;
+        font-weight: 900;
+        font-size: x-large;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        border: 0px;
+      }
+      button:nth-child(17) {
+        background-color: green;
+      }
+
+      button:nth-child(4n + 4) {
+        color: white;
+        background-color: black;
+      }
+      button:nth-child(15) {
+        color: white;
+        background-color: black;
+      }
+      button:nth-child(13) {
+        color: white;
+        background-color: red;
+      }
+      button:hover {
+        background: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="case">
+      <div id="screen">By Shivam Kumar</div>
+      <div id="butt">
+        <button class="number">1</button>
+        <button class="number">2</button>
+        <button class="number">3</button>
+        <button class="symbol">+</button>
+
+        <button class="number">4</button>
+        <button class="number">5</button>
+        <button class="number">6</button>
+        <button class="symbol">-</button>
+
+        <button class="number">7</button>
+        <button class="number">8</button>
+        <button class="number">9</button>
+        <button class="symbol">*</button>
+
+        <button id="clear">C</button>
+        <button class="number">0</button>
+        <button class="symbol">/</button>
+        <button id="delete1">DE</button>
+        <button id="equal"  style="grid-column: span 2;">=</button>
+ 
+      </div>
+    </div>
+    <script>
+      let keypad = document.getElementsByClassName("number");
+      let operator = document.getElementsByClassName("symbol");
+      let display = document.getElementById("screen");
+      let equal = document.getElementById("equal");
+      let clear = document.getElementById("clear");
+      let delete1 = document.getElementById("delete1");
+      let IsfirstNumber = true;
+
+      let firstNumber = "";
+      let SecondNumber = "";
+      let opt = "";
+
+      clear.addEventListener("click", function() {
+        firstNumber = "";
+        SecondNumber = "";
+        opt = "";
+        IsfirstNumber = true;
+        display.innerText = "0";
+      });
+
+      delete1.addEventListener("click", function() {
+        if (IsfirstNumber) {
+          firstNumber = firstNumber.slice(0, -1);
+          display.innerText = firstNumber;
+        } else {
+          SecondNumber = SecondNumber.slice(0, -1);
+          display.innerText = SecondNumber;
+        }
+      });
+
+      equal.addEventListener("click", function() {
+        display.innerText = calculate(firstNumber, SecondNumber, opt);
+      });
+
+      for (let i = 0; i < keypad.length; i++) {
+        keypad[i].addEventListener("click", function() {
+          if (IsfirstNumber) {
+            firstNumber += keypad[i].innerText;
+            display.innerText = firstNumber;
+          } else {
+            SecondNumber += keypad[i].innerText;
+            display.innerText = SecondNumber;
+          }
+        });
+      }
+
+      for (let i = 0; i < operator.length; i++) {
+        operator[i].addEventListener("click", function() {
+          IsfirstNumber = false;
+          opt = operator[i].innerText;
+        });
+      }
+
+      function calculate(firstNumber, SecondNumber, opt) {
+        switch (opt) {
+          case "+":
+            return Number(firstNumber) + Number(SecondNumber);
+          case "-":
+            return Number(firstNumber) - Number(SecondNumber);
+          case "*":
+            return Number(firstNumber) * Number(SecondNumber);
+          case "/":
+            return Number(firstNumber) / Number(SecondNumber);
+          default:
+            return "Invalid operation";
+        }
+      }
+    </script>
+  </body>
+</html>
